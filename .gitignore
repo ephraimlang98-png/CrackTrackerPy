@@ -1,0 +1,56 @@
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.test_tmp/
+*.egg-info/
+
+# Local settings and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Research inputs and outputs stay local
+data/
+private_data/
+sample_data/
+demo_output/
+results/
+outputs/
+validation*/
+Side A/
+Side B/
+*.bmp
+*.tif
+*.tiff
+*.csv
+*.xlsx
+*.xls
+*.json
+*.log
+
+# Old versions, generated distributions and unreviewed binaries
+*_backup.py
+build*/
+dist*/
+pkg*/
+release/
+adb/
+phone/
+*.exe
+*.dll
+*.apk
+*.zip
+*.7z
+*.spec

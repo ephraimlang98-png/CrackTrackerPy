@@ -1,0 +1,5 @@
+# Versions observed in the existing Windows/Python 3.13 development environment.
+numpy==2.5.3
+scipy==1.18.1
+Pillow==12.3.0
+matplotlib==3.11.2
