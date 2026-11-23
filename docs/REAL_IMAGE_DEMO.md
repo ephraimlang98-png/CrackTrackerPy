@@ -6,7 +6,7 @@
 
 ## Reproduce
 
-```powershell
+```sh
 python -m pip install -r requirements-core.txt
 python examples/lab_demo.py --output demo_output/lab
 ```
