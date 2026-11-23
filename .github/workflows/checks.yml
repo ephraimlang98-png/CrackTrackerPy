@@ -1,0 +1,33 @@
+name: Checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-core.txt
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Compile source
+        run: python -m compileall -q app.py crack_core.py ct_app.py ct_core.py ct_detect.py ct_detect2.py ct_detect3.py ct_frame.py ct_track.py fc_autosetup.py fc_link.py fc_proto.py gcam_b.py phone_b.py examples tests
+      - name: Run tests
+        run: python -m unittest discover -s tests -v
+      - name: Run synthetic example
+        run: python examples/synthetic_demo.py --output demo_output
+      - name: Run real-image example
+        run: python examples/lab_demo.py --output demo_output/lab
