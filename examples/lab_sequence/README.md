@@ -8,7 +8,7 @@ The owner confirmed that successive numbered ruler marks are 1 mm apart. `exampl
 
 Run from the repository root:
 
-```powershell
+```sh
 python examples/lab_demo.py --output demo_output/lab
 ```
 
