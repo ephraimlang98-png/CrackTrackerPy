@@ -14,7 +14,7 @@ Thirty owner-authorized images from one specimen face are included with a reprod
 
 ![Crack growth across thirty selected laboratory frames](docs/demo/crack_progression.gif)
 
-```powershell
+```sh
 python examples/lab_demo.py --output demo_output/lab
 ```
 
@@ -32,33 +32,22 @@ See the [real-image example](docs/REAL_IMAGE_DEMO.md) for calibration, initializ
 
 The desktop interface is primarily **Hebrew, right-to-left**. Documentation and the headless example are in English.
 
-## Quick start (Windows)
+## Quick start
 
-Use **64-bit Python 3.13**. The dependency versions are pinned to the existing development environment. From the repository root in PowerShell:
+Use **64-bit Python 3.13** with your virtual environment activated. Run the following commands from the repository root; `python` refers to the active environment's interpreter.
 
-```powershell
-py -3.13 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe app.py
+```sh
+python -m pip install -r requirements.txt
+python app.py
 ```
 
 To open the C(T) interface:
 
-```powershell
-.\.venv\Scripts\python.exe ct_app.py
+```sh
+python ct_app.py
 ```
 
 See [installation and troubleshooting](docs/INSTALLATION.md) and the [measurement guide](docs/USAGE.md). The C(T) interface uses Windows `winsound`; other operating systems have not been verified for the desktop application.
-
-## Try it without research data or a camera
-
-```powershell
-.\.venv\Scripts\python.exe examples\synthetic_demo.py --output demo_output
-```
-
-This generates two artificial image sequences, runs the **existing measurement engine**, and writes a result table and annotated images. Generated images are illustrative, not laboratory data or evidence of experimental accuracy. For the headless example alone, install `requirements-core.txt` instead of `requirements.txt`.
-
-![Existing measurement engine applied to an artificial crack, with tip and millimetre scale](docs/synthetic_demo.png)
 
 ## Measurement workflow
 
@@ -82,17 +71,11 @@ See [architecture and limitations](docs/ARCHITECTURE.md) for the code map and in
 
 ## Verification
 
-```powershell
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+```sh
+python -m unittest discover -s tests -v
 ```
 
 Tests use synthetic images and do not require unpublished research datasets. Laboratory use and comparison against manual measurements are reported by the project owner. This repository does not publish an independent experimental benchmark, a general accuracy figure, or a timing guarantee. See [validation scope](docs/VALIDATION.md).
-
-## Project ownership and AI assistance
-
-Ephraim Lang defined the requirements, selected the contrast-based detection approach, checked and validated results against manual measurements, iterated on the solution, and integrated it into the experimental setup. Most implementation code was written with assistance from **Claude**. Repository documentation, packaging and reproducible examples were prepared with additional AI assistance.
-
-This description distinguishes the owner's engineering and validation work from unaided authorship of all implementation code.
 
 ## Data, optional integrations and rights
 
@@ -100,4 +83,4 @@ Only the thirty explicitly authorized real-image examples are included. Other re
 
 This repository contains illustrative C(T) dimension presets, not the laboratory's specimen drawing or load schedule. The load-stage list starts empty. Enter reviewed values for your own experiment.
 
-The repository is prepared for **private review**. No open-source license is granted at this stage. Publishing the source requires confirmation of any institutional, collaborator and third-party rights, plus the owner's explicit approval to change GitHub visibility. See [publication review](docs/PUBLICATION_REVIEW.md).
+No open-source license has been granted. See [publication review](docs/PUBLICATION_REVIEW.md) for data and rights notes.
