@@ -12,4 +12,4 @@ Run from the repository root:
 python examples/lab_demo.py --output demo_output/lab
 ```
 
-The script calls the unchanged engine, saves measurements, and creates an English result figure and animation. The animation presents computed engine outputs; it is not a screen recording of the desktop interface. No independent manual ground-truth measurements are supplied, so this example does not establish experimental accuracy. Permission to include these example images does not change the repository's private visibility or grant a general reuse license.
+The script calls the unchanged engine, saves measurements, and creates an English result figure and animation. The animation presents computed engine outputs; it is not a screen recording of the desktop interface. No independent manual ground-truth measurements are supplied, so this example does not establish experimental accuracy. Permission to include these example images does not grant a general reuse license.
