@@ -1,6 +1,6 @@
-# Publication review
+# Data and distribution notes
 
-Prepared for private repository review on 2026-11-23. Keeping a repository private does not establish intellectual-property ownership or permission to redistribute it.
+The initial source and data review was prepared on 2026-11-23. Repository visibility does not establish intellectual-property ownership or a reuse license.
 
 ## Included and excluded material
 
@@ -17,11 +17,8 @@ Laboratory-specific material/drawing references, dimension/tolerance presets, re
 - A source-content scan can identify likely credentials, personal paths, contact details and explicit confidentiality notices; it cannot prove their absence in every possible form.
 - No credential or personal-contact value was identified in the selected original Python source during the initial scan. Loopback addresses and Android package/storage identifiers are functional integration settings.
 - The absence of a copyright header does not establish ownership. Employer, university, laboratory, sponsor or collaborator agreements were not supplied and cannot be inferred from code.
-- Claude-assisted implementation does not by itself establish clearance of all institutional or third-party rights.
 - No open-source license has been selected or granted. External dependencies retain their own licenses; their code and binaries are not vendored here.
 
-## Before making the repository public
+## Additional material
 
-The owner must explicitly approve the visibility change and confirm permission to publish the source, including any institutional or collaborator interest. Authorization to include the selected example images is recorded above; adding further data requires its own review. Review the actual staged diff and Git history again, not only the current working directory.
-
-Until then, keep the repository private. A private repository URL is inaccessible to a CV reviewer unless access is separately granted.
+Authorization to include the selected example images applies to that subset. Additional research data, source files or third-party assets require their own review before inclusion. Public access to this repository does not grant a general reuse license.
