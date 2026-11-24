@@ -2,72 +2,68 @@
 
 **Image-based crack-growth measurement for laboratory experiments.**
 
-CrackTrackerPy is a Python desktop application that measures visible crack tips in image sequences, converts pixel distances to millimetres, and combines measurements from two specimen faces. It supports batch processing and monitoring folders as new images arrive. The system is used in a research laboratory.
+A Python desktop application for tracking visible crack tips, converting pixels to millimetres, and measuring growth on two specimen faces. Used in a research laboratory, it processes existing image sequences or monitors folders as new images arrive.
 
-The measurement method uses image registration, local intensity contrast and connected-path tracing. It does not require a trained neural network.
+[Quick start](#quick-start) · [Measurement guide](docs/USAGE.md) · [How it works](docs/ARCHITECTURE.md) · [Documentation](docs/README.md)
 
-![CrackTrackerPy measuring a real laboratory image](docs/demo/real_measurement.png)
+![Crack-tip tracking and measured growth across thirty laboratory images](docs/demo/crack_progression.gif)
 
-## Real-image demonstration
+*The existing measurement engine applied to 30 authorized images from one specimen face. The animation shows computed results, rather than the desktop interface. [Calibration, inputs and reproduction details →](docs/REAL_IMAGE_DEMO.md)*
 
-Thirty owner-authorized images from one specimen face are included with a reproducible example. The annotations, tip detail and growth plot below are produced by the existing engine.
+## Capabilities
 
-![Crack growth across thirty selected laboratory frames](docs/demo/crack_progression.gif)
-
-```sh
-python examples/lab_demo.py --output demo_output/lab
-```
-
-See the [real-image example](docs/REAL_IMAGE_DEMO.md) for calibration, initialization, input preparation and interpretation. The animation presents engine outputs; the desktop interface is separate. This single-face example is not a two-face benchmark or independent experimental accuracy validation.
-
-## What is implemented
-
-- Per-side calibration from known distances in an image.
-- Translation registration against a baseline image using normalized cross-correlation.
-- Crack tracing in short segments, with local background comparison and direction updates.
-- Absolute crack length `a`, baseline-relative growth `delta_a`, side A/B measurements and their mean.
-- Batch and live folder processing, plots, annotated-image export and CSV export.
-- Sensitivity adjustment, registration/measurement status, manual tip correction and remeasurement.
-- A separate compact-tension (C(T)) interface with specimen geometry helpers, projected crack length, a temporal growth guard and load-calculation helpers.
-
-The desktop interface is primarily **Hebrew, right-to-left**. Documentation and the headless example are in English.
+| Area | Implemented functionality |
+|---|---|
+| Detection | Image registration, local intensity contrast and connected-path tracing. |
+| Measurement | Per-side pixel-to-mm calibration, absolute crack length, baseline-relative growth and side A/B aggregation. |
+| Processing | Batch sequences and live folder monitoring. |
+| Review and export | Tip overlays, measurement status, sensitivity adjustment, manual correction, plots and CSV export. |
+| Compact-tension workflow | A separate C(T) interface with geometry helpers, projected crack length, temporal growth confirmation and load calculations. |
 
 ## Quick start
 
-Use **64-bit Python 3.13** with your virtual environment activated. Run the following commands from the repository root; `python` refers to the active environment's interpreter.
+Use **Windows and 64-bit Python 3.13**, with a virtual environment activated. Run commands from the repository root; `python` refers to the active environment.
 
 ```sh
+git clone https://github.com/ephraimlang98-png/CrackTrackerPy.git
+cd CrackTrackerPy
 python -m pip install -r requirements.txt
 python app.py
 ```
 
-To open the C(T) interface:
+Choose the entry point for your workflow:
 
-```sh
-python ct_app.py
-```
+| Workflow | Command |
+|---|---|
+| General desktop application | `python app.py` |
+| Compact-tension desktop application | `python ct_app.py` |
+| Included real-image example | `python examples/lab_demo.py --output demo_output/lab` |
 
-See [installation and troubleshooting](docs/INSTALLATION.md) and the [measurement guide](docs/USAGE.md). The C(T) interface uses Windows `winsound`; other operating systems have not been verified for the desktop application.
+The desktop interface is primarily **Hebrew, right-to-left**; documentation and example figures are in English. See [installation](docs/INSTALLATION.md) for environment setup, the smaller headless dependency set and troubleshooting.
 
 ## Measurement workflow
 
-1. Select a folder for side A; optionally enable side B and select its folder.
-2. Calibrate each side using a known distance. Mark the measurement origin and approximate baseline tip.
-3. Inspect the baseline and a later image; adjust sensitivity or the registration region if needed.
-4. Process the existing sequence or start live folder monitoring.
-5. Review flags and tip overlays, make any justified manual corrections, then export results.
+1. Select the side-A image folder and, optionally, the matching side-B folder.
+2. Calibrate each side, then mark the measurement origin and approximate baseline tip.
+3. Check the baseline and a later frame; adjust sensitivity or the registration region when needed.
+4. Run batch processing or start live folder monitoring.
+5. Review tip overlays and per-side status, correct supported measurements, and export results.
 
-**Pairing matters:** two ordinary folders are paired by natural filename order, up to the shorter sequence; they are not synchronized by timestamps. The optional phone workflow uses a separate name-based pairing mechanism. Do not combine unrelated recordings.
+**Two-side interpretation:** ordinary folders are paired by natural filename order, without timestamp synchronization. The combined length averages the available finite side values and can fall back to one side. Review pairing and per-side status before interpreting the mean. [Detailed measurement guide →](docs/USAGE.md)
 
-When both sides have finite values, the reported length is their arithmetic mean. With only one finite value, the application uses that value; a mean field therefore does not guarantee that both sides were measured successfully. The combined growth is relative to the first finite combined length. Check per-side values and status fields when interpreting exports.
+## Project map
 
-## How the measurement works
+| Location | Purpose |
+|---|---|
+| [`app.py`](app.py), [`ct_app.py`](ct_app.py) | General and C(T) desktop entry points. |
+| [`crack_core.py`](crack_core.py) | Registration, contrast-based tracing and per-frame measurement. |
+| `ct_*.py` | C(T) geometry, feature detection and temporal tracking. |
+| `phone_b.py`, `fc_*.py`, `gcam_b.py` | Optional phone and capture integrations. |
+| [`examples/`](examples/) | Reproducible examples and the 30-frame laboratory subset. |
+| [`tests/`](tests/) | Measurement, geometry, protocol and desktop checks. |
+| [`docs/`](docs/README.md) | Installation, operation, architecture and validation notes. |
 
-`crack_core.py` reads the image, registers it to a baseline, and traces a connected path within a narrow band. The path is scored using local intensity evidence, with direction refitted between short segments. The tip is estimated where the evidence falls below the selected threshold. Thresholds can be estimated from baseline background texture or adjusted by the user.
-
-The general interface measures length along the traced path from the selected origin. The C(T) interface projects the tip onto the configured crack axis from the load line. Its growth guard requires new image evidence to persist in subsequent frames and can revise provisional measurements.
-
-See [architecture and limitations](docs/ARCHITECTURE.md) for the code map and interpretation details.
+For the processing stages and individual module responsibilities, see [architecture and limits](docs/ARCHITECTURE.md).
 
 ## Verification
 
@@ -75,12 +71,13 @@ See [architecture and limitations](docs/ARCHITECTURE.md) for the code map and in
 python -m unittest discover -s tests -v
 ```
 
-Tests use synthetic images and do not require unpublished research datasets. Laboratory use and comparison against manual measurements are reported by the project owner. This repository does not publish an independent experimental benchmark, a general accuracy figure, or a timing guarantee. See [validation scope](docs/VALIDATION.md).
+Automated checks cover measurement growth, registration, failure handling, geometry, protocol framing and desktop startup. The real-image example exercises the engine on the included recording; it is not an independent accuracy benchmark. See [validation scope](docs/VALIDATION.md).
 
-## Data, optional integrations and rights
+## Further documentation
 
-Only the thirty explicitly authorized real-image examples are included. Other research images, measurement workbooks, local configurations, executables, Android APKs and bundled third-party tools are excluded. The phone integration source is included, but its Android companion application is not; see [optional hardware integration](docs/OPTIONAL_HARDWARE.md).
+- [Documentation index](docs/README.md) — choose a guide by task.
+- [Real-image demonstration](docs/REAL_IMAGE_DEMO.md) — calibration, initialization, outputs and interpretation.
+- [Optional hardware](docs/OPTIONAL_HARDWARE.md) — phone capture and integration requirements.
+- [Data and distribution notes](docs/PUBLICATION_REVIEW.md) — included material, review scope and rights.
 
-This repository contains illustrative C(T) dimension presets, not the laboratory's specimen drawing or load schedule. The load-stage list starts empty. Enter reviewed values for your own experiment.
-
-No open-source license has been granted. See [publication review](docs/PUBLICATION_REVIEW.md) for data and rights notes.
+Only the authorized 30-frame laboratory subset is included. No open-source license has been granted.
